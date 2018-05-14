@@ -28,10 +28,10 @@ def load_data(data_directory):
 			images.append(color.gray2rgb(skimage.data.imread(f)))
 			labels.append(np.int32(d[-3:])-1)
 	len_images=len(images)
-	images_28=[transform.resize(image,(32,32)) for image in images]
+	images_28=[transform.resize(image,(28,28)) for image in images]
 	images=np.array(images_28,dtype=np.float32)
 	labels=np.array(labels,dtype=np.int32)
-	X_train, X_test, y_train, y_test = train_test_split(images,labels, test_size=0.2)	
+	X_train, X_test, y_train, y_test = train_test_split(images,labels, test_size=0.25)	
 	return X_train, X_test, y_train, y_test
 
 

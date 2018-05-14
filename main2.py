@@ -15,8 +15,8 @@ matplotlib.use('Agg')
 def main():
 	num_classes=62
 	batch_size=128
-	epochs= 300
-	img_rows,img_cols=28,28
+	epochs= 5
+	img_rows,img_cols=32,32
 	training_data_directory="./ML/Fnt32"
 
 	x_train,x_test,y_train,y_test= load_data.load_data(training_data_directory)
@@ -31,15 +31,20 @@ def main():
 	#layer Conv2D_1
 	model.add(Conv2D(32,3,padding="same",activation='relu',input_shape=(img_cols,img_cols,3)))
 	model.add(Conv2D(32,3,activation='relu'))
+	#layer MaxPololing2D_1
 	model.add(MaxPooling2D(pool_size=(2,2),strides=2))
 	#layer Conv2D_2
 	model.add(Conv2D(64,3,padding="same",activation='relu'))
 	model.add(Conv2D(64,3,activation='relu'))
+	#layer MaxPololing2D_2
+	model.add(MaxPooling2D(pool_size=(2,2),strides=2))
+	model.add(Conv2D(64,3,padding="same",activation='relu'))
+	#layer MaxPololing2D_2
 	model.add(MaxPooling2D(pool_size=(2,2),strides=2))
 	model.add(Flatten())
 	#layer Dense 1
-	model.add(Dense(units=512,activation='relu'))
-	model.add(Dropout(0.4))
+	model.add(Dense(units=1024,activation='relu'))
+	model.add(Dropout(0.5))
 	#layer Dense 2
 	model.add(Dense(62, activation='softmax'))
 	model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01,momentum=0.9),metrics=['accuracy'])
@@ -52,12 +57,12 @@ def main():
 	total_time = (end_time - start_time)
 	print("Time to training: ", total_time, " seconds")
 	model.evaluate(x_test,y_test, verbose=0)
-	model_json=model.to_json()
-	with open("model.json","w") as f:
-		f.write(model_json)
+	# model_json=model.to_json()
+	# with open("model.json","w") as f:
+		# f.write(model_json)
 	# serialize weights to HDF5
-	model.save_weights("model.h5")
-	print("Saved model to disk")
+	# model.save_weights("model.h5")
+	# print("Saved model to disk")
 	
 	print(history.history.keys)
 	# summarize history for accuracy
