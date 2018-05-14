@@ -15,7 +15,7 @@ import load_data_predict
 import random
 from skimage import io
 
-data_predict_direction="./ML/Fnt32"
+data_predict_direction="./ML/Predict"
 k=10
 
 num_classes=62
@@ -28,7 +28,7 @@ model = model_from_json(loaded_model_json)
 # load weights into new model
 model.load_weights("model.h5")
 print("Loaded model from disk")
-
+print(model.summary())
 images= load_data_predict.load_data(data_predict_direction)
 X_input= random.sample(images,k)
 for i in range(len(X_input)):
@@ -36,16 +36,16 @@ for i in range(len(X_input)):
 	io.show()
 	image = np.reshape(X_input[i],[1,28,28,3])
 	prediction = model.predict(image)
-	print(np.argmax(prediction[0]))
-	print(max(prediction[0]))
+	position= np.argmax(prediction[0])
+	print("thuoc class: ",np.argmax(prediction[0]) + 1)
+	if position < 10:
+		c = chr(position+48)
+	elif position >=10 and position < 36:
+		c= chr(position + 65 - 10)
+	else:
+		c=chr(position + 97 - 36)
+	print"predict - anh tren la ky tu: ",c ," voi xac suat la: ",round(max(prediction[0])*100,2),"%"
 
-# print(np.argmax(prediction))
-# for i in range(len(X_input)):
-# 	plt.subplot(1, 4, i+1)
-# 	plt.axis('off')
-# 	plt.imshow(X_input[i], cmap="gray")
-# 	plt.subplots_adjust(wspace=0.5)
-# plt.show()
 
 
 

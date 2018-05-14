@@ -11,9 +11,6 @@ from skimage import color
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-
-training_data_directory="/home/danbka/Music/Machine/btl/ML/Fnt32"
-
 def load_data(data_directory):
 	directories=[d for d in os.listdir(data_directory)
 					if os.path.isdir(os.path.join(data_directory,d))]
@@ -33,14 +30,3 @@ def load_data(data_directory):
 	labels=np.array(labels,dtype=np.int32)
 	return images
 
-
-
-# images,labels=load_data(training_data_directory)
-
-
-# print("load xong")
-# print("len X_train: ", len(X_train))
-# print("len y_train: ", len(y_train))
-# print(images[0].shape)
-# print("len X_test",len(X_test))
-# print("len y_test",len(y_test))

@@ -9,7 +9,6 @@ from keras.callbacks import EarlyStopping
 from keras.layers import Dense,Conv2D,Input,MaxPooling2D,Flatten,Dropout
 import load_data
 from keras.models import model_from_json
-import slicing_data
 from keras.optimizers import SGD
 matplotlib.use('Agg')
 def main():
@@ -30,16 +29,16 @@ def main():
 	model=Sequential()
 	#layer Conv2D_1
 	model.add(Conv2D(32,3,padding="same",activation='relu',input_shape=(img_cols,img_cols,3)))
-	model.add(Conv2D(32,3,activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2,2),strides=2))
 	#layer Conv2D_2
 	model.add(Conv2D(64,3,padding="same",activation='relu'))
+	model.add(Conv2D(64,3,activation='relu'))
 	model.add(Conv2D(64,3,activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2,2),strides=2))
 	model.add(Flatten())
 	#layer Dense 1
 	model.add(Dense(units=512,activation='relu'))
-	model.add(Dropout(0.4))
+	model.add(Dropout(0.3))
 	#layer Dense 2
 	model.add(Dense(62, activation='softmax'))
 	model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01,momentum=0.9),metrics=['accuracy'])
@@ -52,6 +51,7 @@ def main():
 	total_time = (end_time - start_time)
 	print("Time to training: ", total_time, " seconds")
 	model.evaluate(x_test,y_test, verbose=0)
+	print""
 	model_json=model.to_json()
 	with open("model.json","w") as f:
 		f.write(model_json)
